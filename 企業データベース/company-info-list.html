@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Component</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function Upload() {
+const [selectedFile1, setSelectedFile1] = React.useState(null);
+const [selectedFile2, setSelectedFile2] = React.useState(null);
+const [selectedFile3, setSelectedFile3] = React.useState(null);
+const [selectedFile4, setSelectedFile4] = React.useState(null);
+
+const handleFileChange1 = (event) => {
+    setSelectedFile1(event.target.files[0]);
+};
+
+const handleFileChange2 = (event) => {
+    setSelectedFile2(event.target.files[0]);
+};
+
+const handleFileChange3 = (event) => {
+    setSelectedFile3(event.target.files[0]);
+};
+
+const handleFileChange4 = (event) => {
+    setSelectedFile4(event.target.files[0]);
+};
+
+const getFileName = (file) => {
+    if (file) {
+    const fileName = file.name;
+    if (fileName.length > 10) {
+        return fileName.slice(0, 10) + "...";
+    }
+    return fileName;
+    }
+    return "詳細";
+};
+
+return (
+    <div className="upload">
+    <div className="div">
+        <div className="group">
+        <div className="div-wrapper">
+            <div>
+            <a href="./index.html" className="text-wrapper">ロゴ</a>
+            </div>        </div>
+            <a href="./file-list.html" className="file-list-link">ファイル一覧</a>
+            <a href="./company-info.html" className="company-info-link">企業情報の入力</a>
+            <a href="./company-info-list.html" className="company-info-list-link">企業情報入力済み一覧</a>
+        <div className="group-2">
+            <div className="text-wrapper">メニュー</div>
+        </div>
+        </div>
+        <div className="overlap">
+        <div className="text-wrapper-2">メニュー</div>
+        </div>
+        <div className="group-3">
+        <div className="text-wrapper-3">企業情報の入力</div>
+        </div>
+            <div className="group-4">
+        <div className="overlap-group-wrapper">
+        <div className="overlap-group">
+            <div className="rectangle" />
+            <label htmlFor="file-input-1" className="text-wrapper-4">
+            {getFileName(selectedFile1)}
+            </label>
+            <input
+            id="file-input-1"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileChange1}
+            />
+        </div>
+        </div>
+        <div className="group-5">
+            <div className="rectangle-2" ><span></span></div>
+            <div className="text-wrapper-5">企業概要の入力</div>
+        </div>
+    </div>
+    <div className="group-6">
+        <div className="overlap-group-wrapper">
+        <div className="overlap-group">
+            <div className="rectangle" />
+            <label htmlFor="file-input-2" className="text-wrapper-4">
+            {getFileName(selectedFile2)}
+            </label>
+            <input
+            id="file-input-2"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileChange2}
+            />
+        </div>
+        </div>
+        <div className="group-5">
+            <div className="rectangle-2" ><span></span></div>
+            <div className="text-wrapper-5">経営者情報の入力</div>
+        </div>
+    </div>
+    <div className="group-7">
+        <div className="overlap-group-wrapper">
+        <div className="overlap-group">
+            <div className="rectangle" />
+            <label htmlFor="file-input-3" className="text-wrapper-4">
+            {getFileName(selectedFile3)}
+            </label>
+            <input
+            id="file-input-3"
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleFileChange3}
+            />
+        </div>
+        </div>
+        <div className="group-5">
+            <div className="rectangle-2" ><span></span></div>
+                    <div className="text-wrapper-5">経営者情報の入力</div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+);
+}
+
+    ReactDOM.render(<Upload />, document.getElementById('root'));
+</script>
+</body>
+</html>

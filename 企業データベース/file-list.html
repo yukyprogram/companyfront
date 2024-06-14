@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File List</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .file-modal {
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .file-modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 5px;
+      width: 80%;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .file-modal-close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .file-modal-close:hover,
+    .file-modal-close:focus {
+      color: black;
+      text-decoration: none;
+    }
+
+    .file-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .file-list-item label {
+      flex-grow: 1;
+      cursor: pointer;
+    }
+
+    .file-list-item button {
+      margin-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+    const { createRoot } = ReactDOM;
+
+    function FileList() {
+      const [modalFile, setModalFile] = useState(null);
+
+      const getFileFromStorage = (key) => {
+        const file = JSON.parse(localStorage.getItem(key));
+        return file ? file : null;
+      };
+
+      const renderFile = (fileKey, fileLabel) => {
+        const file = getFileFromStorage(fileKey);
+        if (file) {
+          return (
+            <div className="file-list-item">
+              <div className="rectangle-2"><span></span></div>
+              <div className="text-wrapper-5">{fileLabel}</div>
+              <div className="overlap-group-wrapper">
+                <div className="overlap-group">
+                  <div className="rectangle" />
+                  <label
+                    className="text-wrapper-4"
+                    onClick={() => file.name.endsWith('.pdf') && setModalFile(file)}
+                  >
+                    {file.name.length > 10 ? file.name.slice(0, 10) + "..." : file.name}
+                  </label>
+                </div>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className="file-list-item">
+            <div className="rectangle-2"><span></span></div>
+            <div className="text-wrapper-5">{fileLabel}</div>
+            <div className="overlap-group-wrapper">
+              <div className="overlap-group">
+                <div className="rectangle" />
+                <label className="text-wrapper-4">ファイル選択</label>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const closeModal = () => {
+        setModalFile(null);
+      };
+
+      return (
+        <div className="upload">
+          <div className="div">
+            <div className="group">
+              <div className="div-wrapper">
+                <div>
+                  <a href="./index.html" className="text-wrapper">ロゴ</a>
+                </div>
+              </div>
+              <a href="./file-list.html" className="file-list-link">ファイル一覧</a>
+              <a href="./company-info.html" className="company-info-link">企業情報の入力</a>
+              <a href="./company-info-list.html" className="company-info-list-link">企業情報入力済み一覧</a>
+              <div className="group-2">
+                <div className="text-wrapper">メニュー</div>
+              </div>
+            </div>
+            <div className="overlap">
+              <div className="text-wrapper-2">メニュー</div>
+            </div>
+            <div className="group-3">
+              <div className="text-wrapper-3">ファイル一覧</div>
+            </div>
+            <div className="group-4">
+              {renderFile('selectedFile1', '定款')}
+            </div>
+            <div className="group-6">
+              {renderFile('selectedFile2', '2023年度損益計算書')}
+            </div>
+            <div className="group-7">
+              {renderFile('selectedFile3', '顧客名簿')}
+            </div>
+            <div className="group-8">
+              {renderFile('selectedFile4', '株主名簿')}
+            </div>
+          </div>
+          {modalFile && (
+            <div className="file-modal">
+              <div className="file-modal-content">
+                <span className="file-modal-close" onClick={closeModal}>&times;</span>
+                <embed src={modalFile.data} type="application/pdf" width="100%" height="600px" />
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(<FileList />);
+  </script>
+</body>
+</html>
